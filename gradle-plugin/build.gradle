@@ -1,6 +1,7 @@
 apply plugin: "java-gradle-plugin"
 apply plugin: "org.jetbrains.kotlin.jvm"
 apply plugin: "kotlin-kapt"
+apply plugin: 'maven-publish'
 
 gradlePlugin {
   plugins {
@@ -20,4 +21,28 @@ dependencies {
   // Needed to register Subplugin as a service
   compileOnly "com.google.auto.service:auto-service:1.0-rc4"
   kapt "com.google.auto.service:auto-service:1.0-rc4"
+}
+
+publishing {
+  publications {
+    mavenJava(MavenPublication) {
+      from components.java
+      artifact sourcesJar
+      artifact javadocJar
+
+      afterEvaluate {
+        artifactId = jar.archiveBaseName
+      }
+    }
+  }
+}
+
+task sourcesJar(type: Jar) {
+  from sourceSets.main.allSource
+  classifier = 'sources'
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+  from javadoc
+  classifier = 'javadoc'
 }

@@ -1,13 +1,19 @@
 buildscript {
   ext.ktVersion = "1.2.70"
-  repositories { jcenter() }
+  repositories { 
+    jcenter()
+    mavenLocal()
+  }
   dependencies {
     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$ktVersion"
+    classpath "debuglog:gradle-plugin:0.0.1"
   }
 }
 
 subprojects {
-  repositories { jcenter() }
+  repositories { 
+    jcenter()
+  }
 
   // Install into local Maven repo with `./gradlew :kotlin-plugin:install :gradle-plugin:install`
   apply plugin: "maven"
